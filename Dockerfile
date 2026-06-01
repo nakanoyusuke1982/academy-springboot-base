@@ -5,6 +5,6 @@ COPY . .
 
 RUN sed -i 's/\r$//' gradlew
 RUN chmod +x gradlew
-RUN ./gradlew build -x test
+RUN ./gradlew bootJar -x test
 
-CMD ["./gradlew", "bootRun"]
+CMD ["java", "-jar", "build/libs/spring-0.0.1-SNAPSHOT.jar"]
