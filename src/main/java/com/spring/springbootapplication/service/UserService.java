@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import com.spring.springbootapplication.form.UserForm;
 import com.spring.springbootapplication.mapper.UserMapper;
 import com.spring.springbootapplication.entity.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Service
 public class UserService {
@@ -21,6 +22,12 @@ public class UserService {
 
           user.setName(form.getName());
         user.setEmail(form.getEmail());
+        
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String hashedPassword = passwordEncoder.encode(form.getPassword());
+        user.setPassword(hashedPassword);
+
+        userMapper.insert(user);
 }
 
 }
