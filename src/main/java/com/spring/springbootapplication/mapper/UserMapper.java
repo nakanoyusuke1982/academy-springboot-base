@@ -6,4 +6,5 @@ import com.spring.springbootapplication.entity.User;
 @Mapper
 public interface UserMapper {
     void insert(User user);
+    User findByEmail(String email);
 }

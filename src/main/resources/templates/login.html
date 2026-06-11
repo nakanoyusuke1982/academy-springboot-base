@@ -1,0 +1,12 @@
+<form action="/login" method="post">
+  <p th:if="${errorMessage}" th:text="${errorMessage}" style="color: red;"></p>
+
+    メールアドレス
+    <input type="email" name="email"><br>
+
+    パスワード
+    <input type="password" name="password"><br>
+
+    <button type="submit">ログイン</button>
+    <button type="button" onclick="location.href='/signup'">新規登録</button>
+</form>

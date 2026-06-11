@@ -30,4 +30,8 @@ public class UserService {
         userMapper.insert(user);
 }
 
+public User findByEmail(String email) {
+    return userMapper.findByEmail(email);
+}
+
 }
