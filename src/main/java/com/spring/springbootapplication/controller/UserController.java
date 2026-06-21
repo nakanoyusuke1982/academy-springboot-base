@@ -12,6 +12,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.spring.springbootapplication.entity.User;
 import com.spring.springbootapplication.form.UserForm;
 import com.spring.springbootapplication.service.UserService;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class UserController {
@@ -43,7 +44,8 @@ public String login() {
 public String login(
         @RequestParam String email,
         @RequestParam String password,
-        RedirectAttributes redirectAttributes) {
+        RedirectAttributes redirectAttributes,
+        HttpSession session) {
 
     User user = userService.findByEmail(email);
 
@@ -56,13 +58,23 @@ public String login(
         redirectAttributes.addFlashAttribute("errorMessage", "メールアドレス、もしくはパスワードが間違っています");
         return "redirect:/login";
     }
-
+    session.setAttribute("loginUser", user);
     return "redirect:/top";
 }
 
 @GetMapping("/top")
-public String top() {
+public String top(HttpSession session) {
+    if (session.getAttribute("loginUser") == null) {
+        return "redirect:/login";
+    }
+
     return "top";
+}
+
+@PostMapping("/logout")
+public String logout(HttpSession session) {
+    session.invalidate();
+    return "redirect:/login";
 }
 
 }
