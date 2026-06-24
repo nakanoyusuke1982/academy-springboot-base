@@ -5,9 +5,9 @@ body {
 }
 
 .page {
-    width: 90%;
-    min-height: 90vh;
-    margin: 30px auto;
+    width: 100%;
+    min-height: 100vh;
+    margin: 0;
     background-color: white;
 }
 
@@ -76,9 +76,9 @@ button {
     text-align: center;
     padding: 8px 0;
     position: fixed;
-    bottom: 25px;
-    left: 5%;
-    width: 90%;
+    bottom: 0;
+    left: 0;
+    width: 100%;
     font-size: 12px;
 }
 
