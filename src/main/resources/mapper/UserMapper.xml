@@ -17,4 +17,16 @@
         )
     </insert>
 
+   <select id="findByEmail"
+        parameterType="java.lang.String"
+        resultType="com.spring.springbootapplication.entity.User">
+    SELECT
+        id,
+        name,
+        email,
+        password
+    FROM users
+    WHERE email = #{email}
+</select>
+
 </mapper>
