@@ -63,11 +63,14 @@ public String login(
 }
 
 @GetMapping("/top")
-public String top(HttpSession session) {
-    if (session.getAttribute("loginUser") == null) {
+public String top(HttpSession session, Model model) {
+    User loginUser = (User) session.getAttribute("loginUser");
+
+    if (loginUser == null) {
         return "redirect:/login";
     }
 
+    model.addAttribute("loginUser", loginUser);
     return "top";
 }
 

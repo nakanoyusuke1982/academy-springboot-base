@@ -97,3 +97,52 @@ button {
     color: #333;
     border-radius: 4px;
 }
+
+/* TOPページ */
+.profile-area {
+    width: 70%;
+    margin: 40px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 60px;
+}
+
+.profile-image {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background-color: #eeeeee;
+    border: 1px solid #cccccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    color: #666666;
+}
+
+.profile-info {
+    width: 360px;
+}
+
+.profile-info h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #999999;
+    padding-bottom: 8px;
+}
+
+.profile-info p {
+    font-size: 14px;
+    line-height: 1.8;
+}
+
+.edit-button {
+    margin-top: 20px;
+    padding: 8px 20px;
+    background-color: #1f5a7a;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
