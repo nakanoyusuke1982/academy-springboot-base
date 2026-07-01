@@ -16,18 +16,20 @@ public class UserService {
         this.userMapper = userMapper;
     }
 
-    public void createUser(UserForm form) {
+    public User createUser(UserForm form) {
 
-         User user = new User();
+    User user = new User();
 
-          user.setName(form.getName());
-        user.setEmail(form.getEmail());
-        
-        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-        String hashedPassword = passwordEncoder.encode(form.getPassword());
-        user.setPassword(hashedPassword);
+    user.setName(form.getName());
+    user.setEmail(form.getEmail());
 
-        userMapper.insert(user);
+    BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    String hashedPassword = passwordEncoder.encode(form.getPassword());
+    user.setPassword(hashedPassword);
+
+    userMapper.insert(user);
+
+    return user;
 }
 
 public User findByEmail(String email) {

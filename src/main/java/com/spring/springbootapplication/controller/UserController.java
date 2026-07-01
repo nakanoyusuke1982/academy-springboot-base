@@ -30,9 +30,13 @@ public String signup(Model model) {
 }
 
 @PostMapping("/signup")
-public String createUser(@ModelAttribute UserForm userForm) {
+public String createUser(@ModelAttribute UserForm userForm, HttpSession session) {
     userService.createUser(userForm);
-    return "redirect:/signup";
+
+    User user = userService.findByEmail(userForm.getEmail());
+    session.setAttribute("loginUser", user);
+
+    return "redirect:/top";
 }
 
 @GetMapping("/login")
