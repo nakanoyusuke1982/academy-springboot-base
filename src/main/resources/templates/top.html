@@ -31,13 +31,13 @@
                     名前：<span th:text="${loginUser.name}"></span>
                 </p>
 
-                <p>
-                    未設定
-                </p>
+               <p th:text="${loginUser.profile != null ? loginUser.profile : '未設定'}">
+    未設定
+</p>
 
-                <button type="button" class="edit-button">
-                    自己紹介を編集
-                </button>
+                <a th:href="@{/profile/edit}">
+    <button type="button">自己紹介を編集</button>
+</a>
             </div>
         </div>
     </div>

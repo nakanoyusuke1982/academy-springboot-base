@@ -1,0 +1,3 @@
+ALTER TABLE users
+ADD COLUMN profile VARCHAR(200),
+ADD COLUMN image_url VARCHAR(255);

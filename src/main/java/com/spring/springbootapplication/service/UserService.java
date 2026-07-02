@@ -36,4 +36,10 @@ public User findByEmail(String email) {
     return userMapper.findByEmail(email);
 }
 
+ public void updateProfile(User user) {
+        userMapper.updateProfile(user);
+    }
+
+
+
 }
