@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>プロフィール編集</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+ <div class="header header-between">
+        <div>My Portfolio</div>
+
+        <form action="/logout" method="post">
+            <button type="submit" class="header-button">
+                ログアウト
+            </button>
+        </form>
+    </div>
+
+   <div class="profile-edit-page">
+    <div class="profile-edit-area">
+        <h1>自己紹介を編集する</h1>
+
+        <form class="profile-edit-form"
+              th:action="@{/profile/edit}"
+              th:object="${profileForm}"
+              method="post"
+              enctype="multipart/form-data">
+
+            <label>自己紹介</label><br>
+
+            <textarea th:field="*{profile}" rows="8" cols="50"></textarea>
+
+            <p th:if="${#fields.hasErrors('profile')}"
+   th:errors="*{profile}"
+   style="color:red;">
+</p>
+
+            <br><br>
+
+            <label>プロフィール画像</label><br>
+            <input type="file" th:field="*{imageFile}">
+
+            <br><br>
+
+            <div class="submit-area">
+    <button type="submit" class="profile-edit-submit">
+        自己紹介を確定する
+    </button>
+</div>
+        </form>
+    </div>
+ <div class="footer">
+        portfolio site
+    </div>
+
+</body>
+</html>

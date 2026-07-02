@@ -17,16 +17,26 @@
         )
     </insert>
 
-   <select id="findByEmail"
-        parameterType="java.lang.String"
-        resultType="com.spring.springbootapplication.entity.User">
+  <select id="findByEmail"
+    parameterType="java.lang.String"
+    resultType="com.spring.springbootapplication.entity.User">
     SELECT
         id,
         name,
         email,
-        password
+        password,
+        profile,
+        image_url AS imageUrl
     FROM users
     WHERE email = #{email}
 </select>
+
+<update id="updateProfile" parameterType="com.spring.springbootapplication.entity.User">
+    UPDATE users
+    SET
+        profile = #{profile},
+        image_url = #{imageUrl}
+    WHERE id = #{id}
+</update>
 
 </mapper>

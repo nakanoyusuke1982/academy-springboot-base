@@ -11,8 +11,12 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.springbootapplication.entity.User;
 import com.spring.springbootapplication.form.UserForm;
+import com.spring.springbootapplication.form.ProfileForm;
 import com.spring.springbootapplication.service.UserService;
 import jakarta.servlet.http.HttpSession;
+import org.springframework.validation.BindingResult;
+import jakarta.validation.Valid;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class UserController {
@@ -76,6 +80,60 @@ public String top(HttpSession session, Model model) {
 
     model.addAttribute("loginUser", loginUser);
     return "top";
+}
+
+@GetMapping("/profile/edit")
+public String editProfile(HttpSession session, Model model) {
+    User loginUser = (User) session.getAttribute("loginUser");
+
+    if (loginUser == null) {
+        return "redirect:/login";
+    }
+
+   ProfileForm profileForm = new ProfileForm();
+profileForm.setProfile(loginUser.getProfile());
+
+model.addAttribute("profileForm", profileForm);
+    model.addAttribute("loginUser", loginUser);
+
+    return "profile-edit";
+}
+
+@PostMapping("/profile/edit")
+public String updateProfile(
+        @Valid @ModelAttribute ProfileForm profileForm,
+        BindingResult bindingResult,
+        HttpSession session,
+        Model model) {
+
+    User loginUser = (User) session.getAttribute("loginUser");
+
+    if (loginUser == null) {
+        return "redirect:/login";
+    }
+
+    if (bindingResult.hasErrors()) {
+    System.out.println(bindingResult.getAllErrors());
+
+    model.addAttribute("profileForm", profileForm);
+    model.addAttribute("loginUser", loginUser);
+
+    return "profile-edit";
+}
+
+    loginUser.setProfile(profileForm.getProfile());
+
+MultipartFile imageFile = profileForm.getImageFile();
+
+if (imageFile != null && !imageFile.isEmpty()) {
+    loginUser.setImageUrl(imageFile.getOriginalFilename());
+}
+
+userService.updateProfile(loginUser);
+
+    session.setAttribute("loginUser", loginUser);
+
+    return "redirect:/top";
 }
 
 @PostMapping("/logout")
