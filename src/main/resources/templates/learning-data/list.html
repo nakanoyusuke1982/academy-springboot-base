@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>学習データ一覧</title>
+</head>
+<body>
+    <h1>学習データ一覧</h1>
+
+    <form method="get" action="/learning-data">
+    <select name="month" onchange="this.form.submit()">
+        <option th:each="month : ${monthList}"
+                th:value="${month}"
+                th:text="${month}"
+                th:selected="${month.equals(selectedMonth)}">
+        </option>
+    </select>
+</form>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>学習日</th>
+                <th>カテゴリ</th>
+                <th>学習時間</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="learningData : ${learningDataList}">
+                <td th:text="${learningData.studyDate}"></td>
+                <td th:text="${learningData.categoryName}"></td>
+                <td th:text="${learningData.studyTime} + '分'"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.springbootapplication.mapper.LearningDataMapper">
+
+    <select id="findByUserIdAndStudyDateBetween"
+            resultType="com.spring.springbootapplication.entity.LearningData">
+        SELECT
+            ld.id,
+            ld.user_id AS userId,
+            ld.category_id AS categoryId,
+            ld.study_time AS studyTime,
+            ld.study_date AS studyDate,
+            ld.created_at AS createdAt,
+            ld.update_at AS updateAt,
+            c.name AS categoryName
+        FROM learning_data ld
+        JOIN categories c
+            ON ld.category_id = c.id
+      WHERE ld.user_id = #{userId}
+  AND ld.study_date >= #{startDate}
+  AND ld.study_date &lt; #{endDate}
+ORDER BY ld.study_date ASC
+    </select>
+
+</mapper>

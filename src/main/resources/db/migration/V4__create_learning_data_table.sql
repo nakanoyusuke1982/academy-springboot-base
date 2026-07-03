@@ -1,0 +1,11 @@
+CREATE TABLE learning_data (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    category_id INTEGER NOT NULL,
+    study_time INTEGER NOT NULL DEFAULT 0,
+    study_date DATE NOT NULL DEFAULT CURRENT_DATE,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    update_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (category_id) REFERENCES categories(id)
+);
