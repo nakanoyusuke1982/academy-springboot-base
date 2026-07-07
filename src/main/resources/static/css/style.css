@@ -1,7 +1,6 @@
 body {
     margin: 0;
-    background-color: #eeeeee;
-    font-family: Arial, sans-serif;
+    background-color: #ffffff;
 }
 
 .page {
@@ -109,15 +108,19 @@ button {
 }
 
 .profile-image {
-    width: 160px;
-    height: 160px;
+    width: 210px;
+    height: 210px;
+
     border-radius: 50%;
+
     background-color: #eeeeee;
     border: 1px solid #cccccc;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+
+    font-size: 18px;
     color: #666666;
 }
 
@@ -207,4 +210,311 @@ button {
     border-radius: 3px;
     font-size: 15px;
     cursor: pointer;
+}
+
+/* =========================
+   skill - new
+========================= */
+
+.skill-new-page {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    color: #333;
+}
+
+.portfolio-header {
+    height: 70px;
+    background: #2b5f80;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 34px;
+    box-sizing: border-box;
+}
+
+.portfolio-title {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.logout-button {
+    background: #ffffff;
+    color: #333333;
+    text-decoration: none;
+    font-size: 12px;
+    padding: 9px 28px;
+    border-radius: 2px;
+}
+
+.skill-new-main {
+    width: 520px;
+    margin: 55px auto 0;
+}
+
+.skill-new-title {
+    text-align: center;
+    font-size: 24px;
+    margin-bottom: 45px;
+}
+
+.target-month {
+    font-size: 14px;
+    margin-bottom: 30px;
+}
+
+.skill-new-form {
+    width: 100%;
+}
+
+.skill-form-group {
+    margin-bottom: 26px;
+}
+
+.skill-form-group label {
+    display: block;
+    font-size: 13px;
+    margin-bottom: 8px;
+}
+
+.skill-form-group input {
+    width: 100%;
+    height: 38px;
+    border: 1px solid #cfcfcf;
+    padding: 8px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+.skill-button-area {
+    text-align: center;
+    margin-top: 32px;
+}
+
+.add-button {
+    width: 150px;
+    height: 38px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    background: #2b5f80;
+    color: #ffffff;
+
+    border: none;
+    border-radius: 3px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.edit-back-link {
+    display: inline-block;
+    margin-top: 32px;
+    color: #1e5c88;
+    font-size: 14px;
+}
+
+.portfolio-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 32px;
+    background: #2b5f80;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+}
+
+/* =========================
+   success modal
+========================= */
+
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+}
+
+.modal-background {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.65);
+}
+
+.modal-box {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 430px;
+    background: #ffffff;
+    padding: 42px 50px;
+    text-align: center;
+    box-sizing: border-box;
+    animation: modalFadeIn 0.2s ease-out;
+}
+
+.modal-message{
+
+    white-space:pre-line;
+
+    font-size:18px;
+
+    font-weight:600;
+
+    line-height:1.8;
+
+}
+
+.modal-button {
+    display: inline-block;
+    background: #2b5f80;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 12px 32px;
+    border-radius: 3px;
+    font-size: 13px;
+    font-weight: bold;
+}
+
+.modal-button:hover,
+.add-button:hover {
+    background: #214b66;
+}
+
+@keyframes modalFadeIn {
+    from {
+        opacity: 0;
+        transform: translate(-50%, -46%);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate(-50%, -50%);
+    }
+}
+
+/* =========================
+   learning-data list
+========================= */
+
+.learning-data-page {
+    width: 720px;
+    margin: 50px auto 80px;
+    text-align: center;
+}
+
+.learning-data-page h1 {
+    font-size: 26px;
+    font-weight: normal;
+    margin-bottom: 35px;
+}
+
+.month-form {
+    margin-bottom: 24px;
+}
+
+.month-select {
+    width: 180px;
+    height: 36px;
+    padding: 6px 10px;
+    border: 1px solid #aaa;
+    font-size: 14px;
+}
+
+.add-link-area {
+    text-align: right;
+    margin-bottom: 18px;
+}
+
+.add-link {
+    display: inline-block;
+    background-color: #2d5f80;
+    color: white;
+    text-decoration: none;
+    padding: 10px 24px;
+    border-radius: 3px;
+    font-size: 14px;
+}
+
+.learning-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 0 auto;
+    font-size: 14px;
+}
+
+.learning-table th {
+    background-color: #2d5f80;
+    color: white;
+    padding: 12px;
+    font-weight: normal;
+}
+
+.learning-table td {
+    border: 1px solid #ccc;
+    padding: 12px;
+    background-color: white;
+}
+
+/* =========================
+   TOP chart area
+========================= */
+
+.chart-area {
+    width: 720px;
+    margin: 20px auto 80px;
+    text-align: center;
+}
+
+.chart-area h2 {
+    width: 320px;          /* 線の長さ */
+    margin: 0 auto 20px;   /* 中央寄せ */
+    padding-bottom: 10px;
+
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+
+    border-bottom: 1px solid #999;
+}
+
+.chart-area button {
+    width: 150px;
+    margin: 20px auto 40px;
+}
+
+.chart-placeholder {
+    width: 720px;
+    height: 320px;
+    margin: 10px auto 0;
+}
+
+.profile-left {
+    text-align: center;
+}
+
+.profile-name {
+    margin-top: 12px;
+    font-size: 14px;
+    color: #333;
+}
+
+.edit-profile-button {
+    width: 220px;
+    margin: 20px 0 0 0;
 }

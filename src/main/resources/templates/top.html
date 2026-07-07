@@ -4,10 +4,10 @@
     <meta charset="UTF-8">
     <title>TOP</title>
     <link rel="stylesheet" href="/css/style.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-
     <div class="header header-between">
         <div>My Portfolio</div>
 
@@ -20,31 +20,96 @@
 
     <div class="page">
         <div class="profile-area">
-            <div class="profile-image">
-                No Image
-            </div>
+            <div class="profile-left">
+    <div class="profile-image">
+        No Image
+    </div>
+
+    <p class="profile-name" th:text="${loginUser.name}">
+        名前
+    </p>
+</div>
 
             <div class="profile-info">
                 <h2>自己紹介</h2>
 
-                <p>
-                    名前：<span th:text="${loginUser.name}"></span>
+                <p th:text="${loginUser.profile != null ? loginUser.profile : '未設定'}">
+                    未設定
                 </p>
 
-               <p th:text="${loginUser.profile != null ? loginUser.profile : '未設定'}">
-    未設定
-</p>
-
                 <a th:href="@{/profile/edit}">
-    <button type="button">自己紹介を編集</button>
+    <button type="button" class="edit-profile-button">
+        自己紹介を編集する
+    </button>
 </a>
             </div>
+        </div>
+
+        <div class="chart-area">
+            <h2>学習チャート</h2>
+
+            <a th:href="@{/learning-data}">
+                <button type="button">編集する</button>
+            </a>
+
+            <div class="chart-placeholder">
+    <canvas id="learningChart"></canvas>
+</div>
         </div>
     </div>
 
     <div class="footer">
-        ©2024
+        portfolio site
     </div>
+<script>
+const ctx = document.getElementById('learningChart');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['先々月', '先月', '今月'],
+       datasets: [
+    {
+        label: 'バックエンド',
+        data: [30, 30, 10],
+        barPercentage: 0.45,
+        categoryPercentage: 0.55
+    },
+    {
+        label: 'フロントエンド',
+        data: [5, 10, 10],
+        barPercentage: 0.45,
+        categoryPercentage: 0.55
+    },
+    {
+        label: 'インフラ',
+        data: [45, 45, 45],
+        barPercentage: 0.45,
+        categoryPercentage: 0.55
+    }
+]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+
+        plugins: {
+            title: {
+                display: true,
+                text: 'Chart.js Bar Chart'
+            }
+        },
+
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0,
+                max: 100
+            }
+        }
+    }
+});
+</script>
 
 </body>
 </html>

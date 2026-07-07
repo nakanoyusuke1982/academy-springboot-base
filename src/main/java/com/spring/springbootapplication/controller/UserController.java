@@ -142,4 +142,10 @@ public String logout(HttpSession session) {
     return "redirect:/login";
 }
 
+@GetMapping("/logout")
+public String logoutGet(HttpSession session) {
+    session.invalidate();
+    return "redirect:/login";
+}
+
 }
