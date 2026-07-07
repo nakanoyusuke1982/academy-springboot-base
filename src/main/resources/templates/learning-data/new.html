@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>項目追加</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body class="skill-new-page">
+
+    <header class="portfolio-header">
+        <div class="portfolio-title">My Portfolio</div>
+        <a href="/logout" class="logout-button">ログアウト</a>
+    </header>
+
+    <main class="skill-new-main">
+
+        <h1 class="skill-new-title">項目追加</h1>
+
+        <p class="target-month">
+            対象月：
+            <span th:text="${selectedMonth}"></span>
+        </p>
+
+        <form th:if="${successMessage == null}"
+              method="post"
+              action="/learning-data"
+              class="skill-new-form">
+
+            <input type="hidden" name="month" th:value="${selectedMonth}">
+
+            <div class="skill-form-group">
+                <label>項目名</label>
+                <input type="text"
+                       name="categoryName"
+                       th:value="${learningDataForm != null ? learningDataForm.categoryName : ''}">
+
+                <p class="error-message"
+                   th:if="${errorMessage}"
+                   th:text="${errorMessage}">
+                </p>
+            </div>
+
+            <div class="skill-form-group">
+                <label>学習時間</label>
+                <input type="number"
+                       name="studyTime"
+                       th:value="${learningDataForm != null ? learningDataForm.studyTime : ''}">
+            </div>
+
+            <div class="skill-button-area">
+                <button type="submit" class="add-button">追加する</button>
+            </div>
+
+        </form>
+
+        <a class="edit-back-link"
+           th:href="@{/learning-data(month=${selectedMonth})}">
+            編集ページに戻る
+        </a>
+
+    </main>
+
+    <div class="modal" th:if="${successMessage}">
+        <div class="modal-background"></div>
+
+        <div class="modal-box">
+           <p
+    class="modal-message"
+    th:text="${successMessage}">
+</p>
+
+            <a class="modal-button"
+               th:href="@{/learning-data(month=${selectedMonth})}">
+                編集ページに戻る
+            </a>
+        </div>
+    </div>
+
+    <footer class="portfolio-footer">
+        portfolio site
+    </footer>
+
+</body>
+
+</html>

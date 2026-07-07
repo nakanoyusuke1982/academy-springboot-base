@@ -16,4 +16,22 @@ public interface LearningDataMapper {
         @Param("startDate") LocalDate startDate,
         @Param("endDate") LocalDate endDate
     );
+
+    Integer findCategoryIdByName(@Param("categoryName") String categoryName);
+
+void insertCategory(@Param("categoryName") String categoryName);
+
+void insertLearningData(
+    @Param("userId") Integer userId,
+    @Param("categoryId") Integer categoryId,
+    @Param("studyTime") Integer studyTime,
+    @Param("studyDate") LocalDate studyDate
+);
+
+int countByUserIdAndCategoryNameAndMonth(
+    @Param("userId") Integer userId,
+    @Param("categoryName") String categoryName,
+    @Param("startDate") LocalDate startDate,
+    @Param("endDate") LocalDate endDate
+);
 }

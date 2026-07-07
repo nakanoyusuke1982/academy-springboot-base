@@ -3,35 +3,57 @@
 <head>
     <meta charset="UTF-8">
     <title>学習データ一覧</title>
+    <link rel="stylesheet" href="/css/style.css">
 </head>
+
 <body>
-    <h1>学習データ一覧</h1>
+<div class="page">
+    <div class="header header-between">
+        <div>My Portfolio</div>
 
-    <form method="get" action="/learning-data">
-    <select name="month" onchange="this.form.submit()">
-        <option th:each="month : ${monthList}"
-                th:value="${month}"
-                th:text="${month}"
-                th:selected="${month.equals(selectedMonth)}">
-        </option>
-    </select>
-</form>
+        <form action="/logout" method="post">
+            <button type="submit" class="header-button">ログアウト</button>
+        </form>
+    </div>
 
-    <table border="1">
-        <thead>
-            <tr>
-                <th>学習日</th>
-                <th>カテゴリ</th>
-                <th>学習時間</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="learningData : ${learningDataList}">
-                <td th:text="${learningData.studyDate}"></td>
-                <td th:text="${learningData.categoryName}"></td>
-                <td th:text="${learningData.studyTime} + '分'"></td>
-            </tr>
-        </tbody>
-    </table>
+    <main class="learning-data-page">
+        <h1>学習データ</h1>
+
+        <form method="get" action="/learning-data" class="month-form">
+            <select name="month" onchange="this.form.submit()" class="month-select">
+                <option th:each="month : ${monthList}"
+                        th:value="${month}"
+                        th:text="${month}"
+                        th:selected="${month.equals(selectedMonth)}">
+                </option>
+            </select>
+        </form>
+
+        <div class="add-link-area">
+            <a th:href="@{/learning-data/new(month=${selectedMonth})}" class="add-link">
+                項目追加
+            </a>
+        </div>
+
+        <table class="learning-table">
+            <thead>
+                <tr>
+                    <th>学習日</th>
+                    <th>カテゴリ</th>
+                    <th>学習時間</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="learningData : ${learningDataList}">
+                    <td th:text="${learningData.studyDate}"></td>
+                    <td th:text="${learningData.categoryName}"></td>
+                    <td th:text="${learningData.studyTime} + '分'"></td>
+                </tr>
+            </tbody>
+        </table>
+    </main>
+
+    <div class="footer">portfolio site</div>
+</div>
 </body>
 </html>
