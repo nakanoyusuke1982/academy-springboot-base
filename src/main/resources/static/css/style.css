@@ -911,12 +911,15 @@ button {
     border-bottom: 2px solid #2d5f80;
 }
 
-.skill-input-help {
+.skill-new-form .skill-input-help {
     margin: 4px 0 0;
-    font-size: 12px;
-    color:#777777;
-}
+    padding: 0;
 
+    color: #666666;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1.4;
+}
 .skill-new-number-input {
     appearance: auto;
     -webkit-appearance: auto;
