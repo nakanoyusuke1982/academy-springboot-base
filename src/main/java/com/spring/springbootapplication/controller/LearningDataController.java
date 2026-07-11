@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.spring.springbootapplication.form.LearningDataForm;
 import com.spring.springbootapplication.service.LearningDataService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 
 @Controller
@@ -95,121 +97,179 @@ public String list(
     return "learning-data/list";
 }
 
-    @GetMapping("/learning-data/new")
-    public String newItem(
-            @RequestParam(name = "month") String month,
-            @RequestParam(name = "categoryId", required = false)
-            Integer categoryId,
-            Model model,
-            HttpSession session) {
+@GetMapping("/learning-data/new")
+public String newItem(
+        @RequestParam(name = "month") String month,
+        @RequestParam(name = "categoryId") Integer categoryId,
+        Model model,
+        HttpSession session) {
 
-        if (session.getAttribute("loginUser") == null) {
-            return "redirect:/login";
-        }
+    if (session.getAttribute("loginUser") == null) {
+        return "redirect:/login";
+    }
 
-        YearMonth selectedMonth =
-                YearMonth.parse(month);
+    YearMonth selectedMonth =
+            YearMonth.parse(month);
 
-        LearningDataForm form =
-                new LearningDataForm();
+    LearningDataForm form =
+            new LearningDataForm();
 
-        form.setMonth(month);
-form.setCategoryId(categoryId);
+    form.setMonth(month);
+    form.setCategoryId(categoryId);
 
-Integer infraCategoryId =
-        learningDataService.findCategoryIdByName("インフラ");
+    Integer infraCategoryId =
+            learningDataService.findCategoryIdByName("インフラ");
 
-Integer backendCategoryId =
-        learningDataService.findCategoryIdByName("バックエンド");
+    Integer backendCategoryId =
+            learningDataService.findCategoryIdByName("バックエンド");
 
-Integer frontendCategoryId =
-        learningDataService.findCategoryIdByName("フロントエンド");
+    Integer frontendCategoryId =
+            learningDataService.findCategoryIdByName("フロントエンド");
 
-model.addAttribute(
-        "selectedMonth",
-        selectedMonth
-);
+    String categoryName = "";
 
-model.addAttribute(
-        "learningDataForm",
-        form
-);
+    if (categoryId.equals(infraCategoryId)) {
+        categoryName = "インフラ";
 
-model.addAttribute("infraCategoryId", infraCategoryId);
-model.addAttribute("backendCategoryId", backendCategoryId);
-model.addAttribute("frontendCategoryId", frontendCategoryId);
+    } else if (categoryId.equals(backendCategoryId)) {
+        categoryName = "バックエンド";
 
-return "learning-data/new";
-            }
-    @PostMapping("/learning-data")
-    public String create(
-            @ModelAttribute LearningDataForm form,
-            Model model,
-            HttpSession session) {
+    } else if (categoryId.equals(frontendCategoryId)) {
+        categoryName = "フロントエンド";
+    }
 
-        if (session.getAttribute("loginUser") == null) {
-            return "redirect:/login";
-        }
+    model.addAttribute(
+            "selectedMonth",
+            selectedMonth
+    );
 
-        Integer userId = 1;
+    model.addAttribute(
+            "learningDataForm",
+            form
+    );
 
-        String errorMessage =
-                learningDataService.validate(
-                        form,
-                        userId
-                );
+    model.addAttribute(
+            "categoryName",
+            categoryName
+    );
 
-        if (errorMessage != null) {
-            model.addAttribute(
-                    "errorMessage",
-                    errorMessage
-            );
-            model.addAttribute(
-                    "selectedMonth",
-                    YearMonth.parse(form.getMonth())
-            );
-            model.addAttribute(
-                    "learningDataForm",
-                    form
-            );
+    return "learning-data/new";
+}
+@PostMapping("/learning-data")
+public String createLearningData(
+        @Valid @ModelAttribute("learningDataForm") LearningDataForm form,
+        BindingResult bindingResult,
+        HttpSession session,
+        Model model) {
 
-            return "learning-data/new";
-        }
+    if (session.getAttribute("loginUser") == null) {
+        return "redirect:/login";
+    }
 
-        learningDataService.createLearningData(
-                form,
-                userId
-        );
+    Integer userId = 1;
 
-        model.addAttribute(
-                "selectedMonth",
-                YearMonth.parse(form.getMonth())
-        );
-
-        String successMessage =
-                form.getItemName()
-                + " を"
-                + form.getStudyTime()
-                + "分で追加しました！";
-
-        model.addAttribute(
-                "successMessage",
-                successMessage
-        );
-
-        LearningDataForm newForm =
-                new LearningDataForm();
-
-        newForm.setMonth(form.getMonth());
-        newForm.setCategoryId(
-                form.getCategoryId()
-        );
-
-        model.addAttribute(
-                "learningDataForm",
-                newForm
-        );
+    /*
+     * Bean Validationでエラーがある場合
+     * 空欄、50文字超過、0未満など
+     */
+    if (bindingResult.hasErrors()) {
+        setNewPageModel(model, form);
 
         return "learning-data/new";
     }
+
+    /*
+     * 同じ月に同じ項目名が登録されていないか確認
+     */
+    String errorMessage =
+            learningDataService.validate(
+                    form,
+                    userId
+            );
+
+    if (errorMessage != null) {
+        bindingResult.rejectValue(
+                "itemName",
+                "duplicate",
+                errorMessage
+        );
+
+        setNewPageModel(model, form);
+
+        return "learning-data/new";
+    }
+
+    learningDataService.createLearningData(
+            form,
+            userId
+    );
+
+    model.addAttribute(
+            "selectedMonth",
+            YearMonth.parse(form.getMonth())
+    );
+
+    setNewPageModel(model, form);
+
+    String successMessage =
+            form.getItemName()
+            + " を"
+            + form.getStudyTime()
+            + "分で追加しました！";
+
+    model.addAttribute(
+            "successMessage",
+            successMessage
+    );
+
+    LearningDataForm newForm =
+            new LearningDataForm();
+
+    newForm.setMonth(form.getMonth());
+    newForm.setCategoryId(
+            form.getCategoryId()
+    );
+
+    model.addAttribute(
+            "learningDataForm",
+            newForm
+    );
+
+    return "learning-data/new";
+}
+private void setNewPageModel(
+        Model model,
+        LearningDataForm form) {
+
+    Integer infraCategoryId =
+            learningDataService.findCategoryIdByName("インフラ");
+
+    Integer backendCategoryId =
+            learningDataService.findCategoryIdByName("バックエンド");
+
+    Integer frontendCategoryId =
+            learningDataService.findCategoryIdByName("フロントエンド");
+
+    String categoryName = "";
+
+    if (form.getCategoryId().equals(infraCategoryId)) {
+        categoryName = "インフラ";
+
+    } else if (form.getCategoryId().equals(backendCategoryId)) {
+        categoryName = "バックエンド";
+
+    } else if (form.getCategoryId().equals(frontendCategoryId)) {
+        categoryName = "フロントエンド";
+    }
+
+    model.addAttribute(
+            "selectedMonth",
+            YearMonth.parse(form.getMonth())
+    );
+
+    model.addAttribute(
+            "categoryName",
+            categoryName
+    );
+}
 }

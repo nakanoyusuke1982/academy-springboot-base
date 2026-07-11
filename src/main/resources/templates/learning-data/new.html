@@ -21,7 +21,9 @@
 
     <main class="skill-new-main">
 
-        <h1 class="skill-new-title">項目追加</h1>
+        <h1 class="skill-new-title">
+          <span th:text="${categoryName}"></span>に項目を追加
+        </h1>
 
         <p class="target-month">
             対象月：
@@ -36,27 +38,10 @@
 
             <input type="hidden"
                    th:field="*{month}">
-
-            <div class="skill-form-group">
-                <label for="categoryId">カテゴリ</label>
-
-                <select id="categoryId"
-                        th:field="*{categoryId}">
-
-                    <option th:value="${infraCategoryId}">
-    インフラ
-</option>
-
-<option th:value="${backendCategoryId}">
-    バックエンド
-</option>
-
-<option th:value="${frontendCategoryId}">
-    フロントエンド
-</option>
-
-                </select>
-            </div>
+            
+            <input type="hidden"
+               th:field="*{categoryId}">
+            
 
             <div class="skill-form-group">
                 <label for="itemName">項目名</label>
@@ -68,8 +53,8 @@
                        placeholder="Java">
 
                 <p class="error-message"
-                   th:if="${errorMessage}"
-                   th:text="${errorMessage}">
+                   th:if="${#fields.hasErrors('itemName')}"
+                   th:errors="*{itemName}">
                 </p>
             </div>
 
@@ -77,10 +62,15 @@
                 <label for="studyTime">学習時間</label>
 
                 <input type="number"
-                       id="studyTime"
-                       th:field="*{studyTime}"
-                       min="0"
-                       placeholder="40">
+                  id="studyTime"
+                  th:field="*{studyTime}"
+                  min="0"
+                  placeholder="40">
+
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('studyTime')}"
+                   th:errors="*{studyTime}">
+                </p>
             </div>
 
             <div class="skill-button-area">
