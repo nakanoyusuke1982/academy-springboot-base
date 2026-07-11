@@ -11,7 +11,12 @@
 
     <header class="portfolio-header">
         <div class="portfolio-title">My Portfolio</div>
-        <a href="/logout" class="logout-button">ログアウト</a>
+
+        <form action="/logout" method="post">
+            <button type="submit" class="logout-button">
+                ログアウト
+            </button>
+        </form>
     </header>
 
     <main class="skill-new-main">
@@ -24,17 +29,47 @@
         </p>
 
         <form th:if="${successMessage == null}"
+              th:object="${learningDataForm}"
               method="post"
-              action="/learning-data"
+              th:action="@{/learning-data}"
               class="skill-new-form">
 
-            <input type="hidden" name="month" th:value="${selectedMonth}">
+            <input type="hidden"
+                   th:field="*{month}">
 
             <div class="skill-form-group">
-                <label>項目名</label>
+                <label for="categoryId">カテゴリ</label>
+
+                <select id="categoryId"
+                        th:field="*{categoryId}">
+
+                    <option value="">
+                        カテゴリを選択してください
+                    </option>
+
+                    <option value="6">
+                        インフラ
+                    </option>
+
+                    <option value="7">
+                        バックエンド
+                    </option>
+
+                    <option value="8">
+                        フロントエンド
+                    </option>
+
+                </select>
+            </div>
+
+            <div class="skill-form-group">
+                <label for="itemName">項目名</label>
+
                 <input type="text"
-                       name="categoryName"
-                       th:value="${learningDataForm != null ? learningDataForm.categoryName : ''}">
+                       id="itemName"
+                       th:field="*{itemName}"
+                       maxlength="50"
+                       placeholder="Java">
 
                 <p class="error-message"
                    th:if="${errorMessage}"
@@ -43,14 +78,20 @@
             </div>
 
             <div class="skill-form-group">
-                <label>学習時間</label>
+                <label for="studyTime">学習時間</label>
+
                 <input type="number"
-                       name="studyTime"
-                       th:value="${learningDataForm != null ? learningDataForm.studyTime : ''}">
+                       id="studyTime"
+                       th:field="*{studyTime}"
+                       min="0"
+                       placeholder="40">
             </div>
 
             <div class="skill-button-area">
-                <button type="submit" class="add-button">追加する</button>
+                <button type="submit"
+                        class="add-button">
+                    追加する
+                </button>
             </div>
 
         </form>
@@ -62,14 +103,15 @@
 
     </main>
 
-    <div class="modal" th:if="${successMessage}">
+    <div class="modal"
+         th:if="${successMessage}">
+
         <div class="modal-background"></div>
 
         <div class="modal-box">
-           <p
-    class="modal-message"
-    th:text="${successMessage}">
-</p>
+            <p class="modal-message"
+               th:text="${successMessage}">
+            </p>
 
             <a class="modal-button"
                th:href="@{/learning-data(month=${selectedMonth})}">

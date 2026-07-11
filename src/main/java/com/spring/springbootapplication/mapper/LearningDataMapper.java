@@ -11,27 +11,28 @@ import com.spring.springbootapplication.entity.LearningData;
 @Mapper
 public interface LearningDataMapper {
 
+    // 指定したユーザー・対象月の学習項目を取得
     List<LearningData> findByUserIdAndStudyDateBetween(
         @Param("userId") Integer userId,
         @Param("startDate") LocalDate startDate,
         @Param("endDate") LocalDate endDate
     );
 
-    Integer findCategoryIdByName(@Param("categoryName") String categoryName);
+    // 学習項目を登録
+    void insertLearningData(
+        @Param("userId") Integer userId,
+        @Param("categoryId") Integer categoryId,
+        @Param("itemName") String itemName,
+        @Param("studyTime") Integer studyTime,
+        @Param("studyDate") LocalDate studyDate
+    );
 
-void insertCategory(@Param("categoryName") String categoryName);
-
-void insertLearningData(
-    @Param("userId") Integer userId,
-    @Param("categoryId") Integer categoryId,
-    @Param("studyTime") Integer studyTime,
-    @Param("studyDate") LocalDate studyDate
-);
-
-int countByUserIdAndCategoryNameAndMonth(
-    @Param("userId") Integer userId,
-    @Param("categoryName") String categoryName,
-    @Param("startDate") LocalDate startDate,
-    @Param("endDate") LocalDate endDate
-);
+    // 同じ月・同じカテゴリに同じ項目名が存在するか確認
+    int countByUserIdAndCategoryIdAndItemNameAndMonth(
+        @Param("userId") Integer userId,
+        @Param("categoryId") Integer categoryId,
+        @Param("itemName") String itemName,
+        @Param("startDate") LocalDate startDate,
+        @Param("endDate") LocalDate endDate
+    );
 }
