@@ -455,21 +455,23 @@ button {
     width: 100%;
     height: 40px;
 
-    padding: 8px 10px;
+    padding: 8px 0;
 
-    background-color: #ffffff;
+    background: transparent;
 
-    border: 1px solid #cccccc;
-    border-radius: 2px;
+    border: none;
+    border-bottom: 1px solid #b5b5b5;
+    border-radius: 0;
 
     font-size: 14px;
 }
 
 .skill-form-group input:focus,
 .skill-form-group select:focus {
-    border-color: #2d5f80;
+    border-bottom: 2px solid #2d5f80;
     outline: none;
 }
+
 .error-message {
     color: red;
     font-size: 14px;
@@ -888,5 +890,43 @@ button {
 .study-time-input::-webkit-outer-spin-button {
     opacity: 1;
     -webkit-appearance: inner-spin-button;
+    margin: 0;
+}
+
+.skill-new-input {
+    width: 100%;
+    padding: 8px 0;
+
+    border: none;
+    border-bottom: 1px solid #b5b5b5;
+    border-radius: 0;
+
+    background-color: transparent;
+    font-size: 16px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.skill-new-input:focus {
+    border-bottom: 2px solid #2d5f80;
+}
+
+.skill-input-help {
+    margin: 4px 0 0;
+    font-size: 12px;
+    color:#777777;
+}
+
+.skill-new-number-input {
+    appearance: auto;
+    -webkit-appearance: auto;
+    -moz-appearance: auto;
+}
+
+.skill-new-number-input::-webkit-inner-spin-button,
+.skill-new-number-input::-webkit-outer-spin-button {
+    opacity: 1;
+    -webkit-appearance: inner-spin-button;
+    appearance: auto;
     margin: 0;
 }
