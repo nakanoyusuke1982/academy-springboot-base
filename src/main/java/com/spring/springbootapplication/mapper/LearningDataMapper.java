@@ -35,4 +35,8 @@ public interface LearningDataMapper {
         @Param("startDate") LocalDate startDate,
         @Param("endDate") LocalDate endDate
     );
+
+    Integer findCategoryIdByName(
+    @Param("categoryName") String categoryName
+);
 }

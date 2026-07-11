@@ -73,12 +73,24 @@ public String list(
         monthList.add(currentMonth.minusMonths(i));
     }
 
+    Integer infraCategoryId =
+        learningDataService.findCategoryIdByName("インフラ");
+
+    Integer backendCategoryId =
+        learningDataService.findCategoryIdByName("バックエンド");
+
+    Integer frontendCategoryId =
+        learningDataService.findCategoryIdByName("フロントエンド");
+
     model.addAttribute("learningDataList", learningDataList);
     model.addAttribute("backendList", backendList);
     model.addAttribute("frontendList", frontendList);
     model.addAttribute("infraList", infraList);
     model.addAttribute("monthList", monthList);
     model.addAttribute("selectedMonth", targetMonth);
+    model.addAttribute("infraCategoryId", infraCategoryId);
+    model.addAttribute("backendCategoryId", backendCategoryId);
+    model.addAttribute("frontendCategoryId", frontendCategoryId);
 
     return "learning-data/list";
 }
@@ -102,20 +114,33 @@ public String list(
                 new LearningDataForm();
 
         form.setMonth(month);
-        form.setCategoryId(categoryId);
+form.setCategoryId(categoryId);
 
-        model.addAttribute(
-                "selectedMonth",
-                selectedMonth
-        );
-        model.addAttribute(
-                "learningDataForm",
-                form
-        );
+Integer infraCategoryId =
+        learningDataService.findCategoryIdByName("インフラ");
 
-        return "learning-data/new";
-    }
+Integer backendCategoryId =
+        learningDataService.findCategoryIdByName("バックエンド");
 
+Integer frontendCategoryId =
+        learningDataService.findCategoryIdByName("フロントエンド");
+
+model.addAttribute(
+        "selectedMonth",
+        selectedMonth
+);
+
+model.addAttribute(
+        "learningDataForm",
+        form
+);
+
+model.addAttribute("infraCategoryId", infraCategoryId);
+model.addAttribute("backendCategoryId", backendCategoryId);
+model.addAttribute("frontendCategoryId", frontendCategoryId);
+
+return "learning-data/new";
+            }
     @PostMapping("/learning-data")
     public String create(
             @ModelAttribute LearningDataForm form,

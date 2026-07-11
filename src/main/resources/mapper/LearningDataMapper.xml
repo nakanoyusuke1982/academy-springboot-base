@@ -56,4 +56,11 @@
           AND study_date &lt; #{endDate}
     </select>
 
+<select id="findCategoryIdByName"
+        parameterType="string"
+        resultType="java.lang.Integer">
+    SELECT id
+    FROM categories
+    WHERE name = #{categoryName}
+</select>
 </mapper>
