@@ -204,11 +204,6 @@ public String createLearningData(
             userId
     );
 
-    model.addAttribute(
-            "selectedMonth",
-            YearMonth.parse(form.getMonth())
-    );
-
     setNewPageModel(model, form);
 
     String successMessage =
