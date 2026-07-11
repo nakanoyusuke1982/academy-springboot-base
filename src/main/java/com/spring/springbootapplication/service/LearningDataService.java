@@ -19,6 +19,10 @@ public class LearningDataService {
 
     private final LearningDataMapper learningDataMapper;
 
+    public Integer findCategoryIdByName(String categoryName) {
+      return learningDataMapper.findCategoryIdByName(categoryName);
+    }
+
     /**
      * 指定した月の学習データを取得する
      */

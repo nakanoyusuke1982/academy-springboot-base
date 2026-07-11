@@ -52,13 +52,13 @@
                     バックエンド
                 </h2>
 
-                <a th:href="@{/learning-data/new(
-                        month=${selectedMonth},
-                        categoryId=7
-                    )}"
-                   class="skill-add-button">
-                    項目を追加する
-                </a>
+               <a th:href="@{/learning-data/new(
+        month=${selectedMonth},
+        categoryId=${backendCategoryId}
+    )}"
+   class="skill-add-button">
+    項目を追加する
+</a>
             </div>
 
             <table class="skill-category-table">
@@ -125,13 +125,13 @@
                     フロントエンド
                 </h2>
 
-                <a th:href="@{/learning-data/new(
-                        month=${selectedMonth},
-                        categoryId=8
-                    )}"
-                   class="skill-add-button">
-                    項目を追加する
-                </a>
+              <a th:href="@{/learning-data/new(
+        month=${selectedMonth},
+        categoryId=${frontendCategoryId}
+    )}"
+   class="skill-add-button">
+    項目を追加する
+</a>
             </div>
 
             <table class="skill-category-table">
@@ -198,13 +198,13 @@
                     インフラ
                 </h2>
 
-                <a th:href="@{/learning-data/new(
-                        month=${selectedMonth},
-                        categoryId=6
-                    )}"
-                   class="skill-add-button">
-                    項目を追加する
-                </a>
+               <a th:href="@{/learning-data/new(
+        month=${selectedMonth},
+        categoryId=${infraCategoryId}
+    )}"
+   class="skill-add-button">
+    項目を追加する
+</a>
             </div>
 
             <table class="skill-category-table">
