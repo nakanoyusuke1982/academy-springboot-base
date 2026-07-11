@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <title>学習データ一覧</title>
@@ -7,53 +8,269 @@
 </head>
 
 <body>
+
 <div class="page">
-    <div class="header header-between">
-        <div>My Portfolio</div>
+
+    <!-- ヘッダー -->
+    <header class="header header-between">
+        <div class="header-title">My Portfolio</div>
 
         <form action="/logout" method="post">
-            <button type="submit" class="header-button">ログアウト</button>
+            <button type="submit" class="header-button">
+                ログアウト
+            </button>
         </form>
-    </div>
+    </header>
 
-    <main class="learning-data-page">
-        <h1>学習データ</h1>
+    <!-- メイン -->
+    <main class="skill-edit-main">
 
-        <form method="get" action="/learning-data" class="month-form">
-            <select name="month" onchange="this.form.submit()" class="month-select">
+        <!-- 対象月 -->
+        <form method="get"
+              action="/learning-data"
+              class="skill-month-form">
+
+            <select name="month"
+                    onchange="this.form.submit()"
+                    class="skill-month-select">
+
                 <option th:each="month : ${monthList}"
                         th:value="${month}"
-                        th:text="${month}"
+                        th:text="${month.monthValue + '月'}"
                         th:selected="${month.equals(selectedMonth)}">
                 </option>
+
             </select>
+
         </form>
 
-        <div class="add-link-area">
-            <a th:href="@{/learning-data/new(month=${selectedMonth})}" class="add-link">
-                項目追加
-            </a>
-        </div>
+        <!-- バックエンド -->
+        <section class="skill-category-card">
 
-        <table class="learning-table">
-            <thead>
-                <tr>
-                    <th>学習日</th>
-                    <th>カテゴリ</th>
-                    <th>学習時間</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr th:each="learningData : ${learningDataList}">
-                    <td th:text="${learningData.studyDate}"></td>
-                    <td th:text="${learningData.categoryName}"></td>
-                    <td th:text="${learningData.studyTime} + '分'"></td>
-                </tr>
-            </tbody>
-        </table>
+            <div class="skill-category-header">
+                <h2 class="skill-category-title">
+                    バックエンド
+                </h2>
+
+                <a th:href="@{/learning-data/new(
+                        month=${selectedMonth},
+                        categoryId=7
+                    )}"
+                   class="skill-add-button">
+                    項目を追加する
+                </a>
+            </div>
+
+            <table class="skill-category-table">
+
+                <thead>
+                    <tr>
+                        <th>項目名</th>
+                        <th>学習時間</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="item : ${backendList}">
+
+                        <td th:text="${item.itemName}">
+                            Java
+                        </td>
+
+                        <td>
+                            <input type="number"
+       class="study-time-input"
+       th:value="${item.studyTime}"
+       min="0"
+       step="1">
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="study-save-button">
+                                学習内容を保存する
+                            </button>
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="study-delete-button">
+                                削除する
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(backendList)}">
+                        <td colspan="4"
+                            class="skill-empty-message">
+                            登録されている項目はありません
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <!-- フロントエンド -->
+        <section class="skill-category-card">
+
+            <div class="skill-category-header">
+                <h2 class="skill-category-title">
+                    フロントエンド
+                </h2>
+
+                <a th:href="@{/learning-data/new(
+                        month=${selectedMonth},
+                        categoryId=8
+                    )}"
+                   class="skill-add-button">
+                    項目を追加する
+                </a>
+            </div>
+
+            <table class="skill-category-table">
+
+                <thead>
+                    <tr>
+                        <th>項目名</th>
+                        <th>学習時間</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="item : ${frontendList}">
+
+                        <td th:text="${item.itemName}">
+                            HTML
+                        </td>
+
+                        <td>
+                            <input type="number"
+       class="study-time-input"
+       th:value="${item.studyTime}"
+       min="0"
+       step="1">
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="study-save-button">
+                                学習内容を保存する
+                            </button>
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="study-delete-button">
+                                削除する
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(frontendList)}">
+                        <td colspan="4"
+                            class="skill-empty-message">
+                            登録されている項目はありません
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
+        <!-- インフラ -->
+        <section class="skill-category-card">
+
+            <div class="skill-category-header">
+                <h2 class="skill-category-title">
+                    インフラ
+                </h2>
+
+                <a th:href="@{/learning-data/new(
+                        month=${selectedMonth},
+                        categoryId=6
+                    )}"
+                   class="skill-add-button">
+                    項目を追加する
+                </a>
+            </div>
+
+            <table class="skill-category-table">
+
+                <thead>
+                    <tr>
+                        <th>項目名</th>
+                        <th>学習時間</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    <tr th:each="item : ${infraList}">
+
+                        <td th:text="${item.itemName}">
+                            AWS
+                        </td>
+
+                        <td>
+                           <input type="number"
+       class="study-time-input"
+       th:value="${item.studyTime}"
+       min="0"
+       step="1">
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="study-save-button">
+                                学習内容を保存する
+                            </button>
+                        </td>
+
+                        <td>
+                            <button type="button"
+                                    class="study-delete-button">
+                                削除する
+                            </button>
+                        </td>
+
+                    </tr>
+
+                    <tr th:if="${#lists.isEmpty(infraList)}">
+                        <td colspan="4"
+                            class="skill-empty-message">
+                            登録されている項目はありません
+                        </td>
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </section>
+
     </main>
 
-    <div class="footer">portfolio site</div>
+    <!-- フッター -->
+    <footer class="footer">
+        portfolio site
+    </footer>
+
 </div>
+
 </body>
 </html>
