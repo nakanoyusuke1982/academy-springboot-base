@@ -933,3 +933,41 @@ button {
     appearance: auto;
     margin: 0;
 }
+
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    width: 360px;
+    padding: 32px;
+    background-color: #ffffff;
+    border-radius: 6px;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+}
+
+.modal-message {
+    margin: 0 0 24px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.modal-close-button {
+    padding: 10px 32px;
+    border: none;
+    border-radius: 4px;
+    background-color: #356789;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.modal-close-button:hover {
+    opacity: 0.85;
+}

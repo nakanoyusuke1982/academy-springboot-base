@@ -39,4 +39,17 @@ public interface LearningDataMapper {
     Integer findCategoryIdByName(
     @Param("categoryName") String categoryName
 );
+
+// 学習時間を更新
+void updateStudyTime(
+    @Param("id") Integer id,
+    @Param("userId") Integer userId,
+    @Param("studyTime") Integer studyTime
+);
+
+// IDとユーザーIDから学習データを1件取得
+LearningData findByIdAndUserId(
+    @Param("id") Integer id,
+    @Param("userId") Integer userId
+);
 }
