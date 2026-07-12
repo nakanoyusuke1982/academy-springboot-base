@@ -74,36 +74,47 @@
 
                 <tbody>
 
-                    <tr th:each="item : ${backendList}">
+<tr th:each="item : ${backendList}">
 
-                        <td th:text="${item.itemName}">
-                            Java
-                        </td>
+    <td th:text="${item.itemName}">
+        Java
+    </td>
 
-                        <td>
-                            <input type="number"
-       class="study-time-input"
-       th:value="${item.studyTime}"
-       min="0"
-       step="1">
-                        </td>
+    <td>
+        <input type="number"
+               name="studyTime"
+               th:form="'update-form-' + ${item.id}"
+               class="study-time-input"
+               th:value="${item.studyTime}"
+               min="0"
+               step="1">
+    </td>
 
-                        <td>
-                            <button type="button"
-                                    class="study-save-button">
-                                学習内容を保存する
-                            </button>
-                        </td>
+    <td>
+        <form th:id="'update-form-' + ${item.id}"
+              th:action="@{/learning-data/{id}/update(id=${item.id})}"
+              method="post">
 
-                        <td>
-                            <button type="button"
-                                    class="study-delete-button">
-                                削除する
-                            </button>
-                        </td>
+            <input type="hidden"
+                   name="month"
+                   th:value="${selectedMonth}">
 
-                    </tr>
+            <button type="submit"
+                    class="study-save-button">
+                学習内容を保存する
+            </button>
 
+        </form>
+    </td>
+
+    <td>
+        <button type="button"
+                class="study-delete-button">
+            削除する
+        </button>
+    </td>
+
+</tr>
                     <tr th:if="${#lists.isEmpty(backendList)}">
                         <td colspan="4"
                             class="skill-empty-message">
@@ -147,35 +158,47 @@
 
                 <tbody>
 
-                    <tr th:each="item : ${frontendList}">
+                   <tr th:each="item : ${frontendList}">
 
-                        <td th:text="${item.itemName}">
-                            HTML
-                        </td>
+    <td th:text="${item.itemName}">
+        HTML
+    </td>
 
-                        <td>
-                            <input type="number"
-       class="study-time-input"
-       th:value="${item.studyTime}"
-       min="0"
-       step="1">
-                        </td>
+    <td>
+        <input type="number"
+               name="studyTime"
+               th:form="'update-form-' + ${item.id}"
+               class="study-time-input"
+               th:value="${item.studyTime}"
+               min="0"
+               step="1">
+    </td>
 
-                        <td>
-                            <button type="button"
-                                    class="study-save-button">
-                                学習内容を保存する
-                            </button>
-                        </td>
+    <td>
+        <form th:id="'update-form-' + ${item.id}"
+              th:action="@{/learning-data/{id}/update(id=${item.id})}"
+              method="post">
 
-                        <td>
-                            <button type="button"
-                                    class="study-delete-button">
-                                削除する
-                            </button>
-                        </td>
+            <input type="hidden"
+                   name="month"
+                   th:value="${selectedMonth}">
 
-                    </tr>
+            <button type="submit"
+                    class="study-save-button">
+                学習内容を保存する
+            </button>
+
+        </form>
+    </td>
+
+    <td>
+        <button type="button"
+                class="study-delete-button">
+            削除する
+        </button>
+    </td>
+
+</tr>
 
                     <tr th:if="${#lists.isEmpty(frontendList)}">
                         <td colspan="4"
@@ -220,35 +243,47 @@
 
                 <tbody>
 
-                    <tr th:each="item : ${infraList}">
+                  <tr th:each="item : ${infraList}">
 
-                        <td th:text="${item.itemName}">
-                            AWS
-                        </td>
+    <td th:text="${item.itemName}">
+        AWS
+    </td>
 
-                        <td>
-                           <input type="number"
-       class="study-time-input"
-       th:value="${item.studyTime}"
-       min="0"
-       step="1">
-                        </td>
+    <td>
+        <input type="number"
+               name="studyTime"
+               th:form="'update-form-' + ${item.id}"
+               class="study-time-input"
+               th:value="${item.studyTime}"
+               min="0"
+               step="1">
+    </td>
 
-                        <td>
-                            <button type="button"
-                                    class="study-save-button">
-                                学習内容を保存する
-                            </button>
-                        </td>
+    <td>
+        <form th:id="'update-form-' + ${item.id}"
+              th:action="@{/learning-data/{id}/update(id=${item.id})}"
+              method="post">
 
-                        <td>
-                            <button type="button"
-                                    class="study-delete-button">
-                                削除する
-                            </button>
-                        </td>
+            <input type="hidden"
+                   name="month"
+                   th:value="${selectedMonth}">
 
-                    </tr>
+            <button type="submit"
+                    class="study-save-button">
+                学習内容を保存する
+            </button>
+
+        </form>
+    </td>
+
+    <td>
+        <button type="button"
+                class="study-delete-button">
+            削除する
+        </button>
+    </td>
+
+</tr>
 
                     <tr th:if="${#lists.isEmpty(infraList)}">
                         <td colspan="4"
@@ -265,12 +300,41 @@
 
     </main>
 
+    <div class="modal-overlay"
+     th:if="${updateSuccess}"
+     id="updateCompleteModal">
+
+    <div class="modal-content">
+
+        <p class="modal-message"
+           th:text="${updateItemName + 'の学習時間を保存しました！'}">
+        </p>
+
+        <button type="button"
+                class="modal-close-button"
+                onclick="closeUpdateModal()">
+            編集ページに戻る
+        </button>
+
+    </div>
+
+</div>
+
     <!-- フッター -->
     <footer class="footer">
         portfolio site
     </footer>
 
 </div>
+<script>
+    function closeUpdateModal() {
+        const modal =
+            document.getElementById("updateCompleteModal");
 
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
 </body>
 </html>

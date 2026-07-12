@@ -106,7 +106,7 @@ public class LearningDataService {
     /**
      * 学習項目を登録する
      */
-    public void createLearningData(
+        public void createLearningData(
             LearningDataForm form,
             Integer userId) {
 
@@ -124,4 +124,31 @@ public class LearningDataService {
                 studyDate
         );
     }
+
+    /**
+     * 学習時間を更新する
+     */
+    public void updateStudyTime(
+            Integer id,
+            Integer userId,
+            Integer studyTime) {
+
+        learningDataMapper.updateStudyTime(
+                id,
+                userId,
+                studyTime
+        );
+    }
+    /**
+ * IDとユーザーIDから学習データを1件取得する
+ */
+public LearningData findByIdAndUserId(
+        Integer id,
+        Integer userId) {
+
+    return learningDataMapper.findByIdAndUserId(
+            id,
+            userId
+    );
+}
 }

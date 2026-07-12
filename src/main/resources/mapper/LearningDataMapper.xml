@@ -63,4 +63,29 @@
     FROM categories
     WHERE name = #{categoryName}
 </select>
+
+<update id="updateStudyTime">
+    UPDATE learning_data
+    SET
+        study_time = #{studyTime},
+        update_at = CURRENT_TIMESTAMP
+    WHERE id = #{id}
+      AND user_id = #{userId}
+</update>
+
+<select id="findByIdAndUserId"
+        resultType="com.spring.springbootapplication.entity.LearningData">
+    SELECT
+        id,
+        user_id AS userId,
+        category_id AS categoryId,
+        item_name AS itemName,
+        study_time AS studyTime,
+        study_date AS studyDate,
+        created_at AS createdAt,
+        update_at AS updateAt
+    FROM learning_data
+    WHERE id = #{id}
+      AND user_id = #{userId}
+</select>
 </mapper>

@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.spring.springbootapplication.entity.LearningData;
 import com.spring.springbootapplication.form.LearningDataForm;
@@ -20,6 +21,7 @@ import com.spring.springbootapplication.service.LearningDataService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequiredArgsConstructor
@@ -232,6 +234,65 @@ public String createLearningData(
 
     return "learning-data/new";
 }
+
+@PostMapping("/learning-data/{id}/update")
+public String updateLearningData(
+        @PathVariable("id") Integer id,
+        @RequestParam(name = "studyTime", required = false) Integer studyTime,
+        @RequestParam(name = "month") String month,
+        HttpSession session,
+        RedirectAttributes redirectAttributes) {
+
+    if (session.getAttribute("loginUser") == null) {
+        return "redirect:/login";
+    }
+
+    Integer userId = 1;
+
+    if (studyTime == null || studyTime < 0) {
+        redirectAttributes.addAttribute("month", month);
+        redirectAttributes.addFlashAttribute(
+                "updateError",
+                true
+        );
+
+        return "redirect:/learning-data";
+    }
+
+    LearningData learningData =
+            learningDataService.findByIdAndUserId(
+                    id,
+                    userId
+            );
+
+    if (learningData == null) {
+        return "redirect:/learning-data";
+    }
+
+    learningDataService.updateStudyTime(
+            id,
+            userId,
+            studyTime
+    );
+
+    redirectAttributes.addAttribute(
+            "month",
+            month
+    );
+
+    redirectAttributes.addFlashAttribute(
+            "updateSuccess",
+            true
+    );
+
+    redirectAttributes.addFlashAttribute(
+            "updateItemName",
+            learningData.getItemName()
+    );
+
+    return "redirect:/learning-data";
+}
+
 private void setNewPageModel(
         Model model,
         LearningDataForm form) {
