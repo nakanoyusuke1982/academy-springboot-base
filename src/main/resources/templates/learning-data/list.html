@@ -108,11 +108,20 @@
     </td>
 
     <td>
-        <button type="button"
+    <form th:action="@{/learning-data/{id}/delete(id=${item.id})}"
+          method="post">
+
+        <input type="hidden"
+               name="month"
+               th:value="${selectedMonth}">
+
+        <button type="submit"
                 class="study-delete-button">
             削除する
         </button>
-    </td>
+
+    </form>
+</td>
 
 </tr>
                     <tr th:if="${#lists.isEmpty(backendList)}">
@@ -192,11 +201,20 @@
     </td>
 
     <td>
-        <button type="button"
+    <form th:action="@{/learning-data/{id}/delete(id=${item.id})}"
+          method="post">
+
+        <input type="hidden"
+               name="month"
+               th:value="${selectedMonth}">
+
+        <button type="submit"
                 class="study-delete-button">
             削除する
         </button>
-    </td>
+
+    </form>
+</td>
 
 </tr>
 
@@ -277,12 +295,20 @@
     </td>
 
     <td>
-        <button type="button"
+    <form th:action="@{/learning-data/{id}/delete(id=${item.id})}"
+          method="post">
+
+        <input type="hidden"
+               name="month"
+               th:value="${selectedMonth}">
+
+        <button type="submit"
                 class="study-delete-button">
             削除する
         </button>
-    </td>
 
+    </form>
+</td>
 </tr>
 
                     <tr th:if="${#lists.isEmpty(infraList)}">
@@ -320,6 +346,27 @@
 
 </div>
 
+<!-- 削除完了モーダル -->
+<div class="modal-overlay"
+     th:if="${deleteSuccess}"
+     id="deleteCompleteModal">
+
+    <div class="modal-content">
+
+        <p class="modal-message"
+           th:text="${deleteItemName + 'を削除しました！'}">
+        </p>
+
+        <button type="button"
+                class="modal-close-button"
+                onclick="closeDeleteModal()">
+            編集ページに戻る
+        </button>
+
+    </div>
+
+</div>
+
     <!-- フッター -->
     <footer class="footer">
         portfolio site
@@ -330,6 +377,15 @@
     function closeUpdateModal() {
         const modal =
             document.getElementById("updateCompleteModal");
+
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function closeDeleteModal() {
+        const modal =
+            document.getElementById("deleteCompleteModal");
 
         if (modal) {
             modal.style.display = "none";

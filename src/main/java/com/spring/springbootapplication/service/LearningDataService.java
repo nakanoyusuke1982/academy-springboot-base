@@ -151,4 +151,18 @@ public LearningData findByIdAndUserId(
             userId
     );
 }
+
+/**
+ * IDとユーザーIDを指定して学習データを削除する
+ */
+public void deleteLearningData(
+        Integer id,
+        Integer userId) {
+
+    learningDataMapper.deleteByIdAndUserId(
+            id,
+            userId
+    );
+}
+
 }
