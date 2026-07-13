@@ -108,11 +108,19 @@
     </td>
 
     <td>
-        <button type="button"
-                class="study-delete-button">
-            削除する
-        </button>
-    </td>
+    <form th:action="@{/learning-data/{id}/delete(id=${item.id})}"
+          method="post">
+
+        <input type="hidden"
+               name="month"
+               th:value="${selectedMonth}">
+
+      <button type="submit"
+        class="study-delete-button">
+    削除する
+</button>
+    </form>
+</td>
 
 </tr>
                     <tr th:if="${#lists.isEmpty(backendList)}">
@@ -191,13 +199,21 @@
         </form>
     </td>
 
-    <td>
-        <button type="button"
-                class="study-delete-button">
-            削除する
-        </button>
-    </td>
+  <td>
+    <form th:action="@{/learning-data/{id}/delete(id=${item.id})}"
+          method="post">
 
+        <input type="hidden"
+               name="month"
+               th:value="${selectedMonth}">
+
+       <button type="submit"
+        class="study-delete-button">
+    削除する
+</button>
+
+    </form>
+</td>
 </tr>
 
                     <tr th:if="${#lists.isEmpty(frontendList)}">
@@ -276,12 +292,20 @@
         </form>
     </td>
 
-    <td>
-        <button type="button"
-                class="study-delete-button">
-            削除する
-        </button>
-    </td>
+<td>
+    <form th:action="@{/learning-data/{id}/delete(id=${item.id})}"
+          method="post">
+
+        <input type="hidden"
+               name="month"
+               th:value="${selectedMonth}">
+
+      <button type="submit"
+        class="study-delete-button">
+    削除する
+</button>
+    </form>
+</td>
 
 </tr>
 
@@ -300,36 +324,68 @@
 
     </main>
 
+      <!-- 更新完了モーダル -->
     <div class="modal-overlay"
-     th:if="${updateSuccess}"
-     id="updateCompleteModal">
+         th:if="${updateSuccess}"
+         id="updateCompleteModal">
 
-    <div class="modal-content">
+        <div class="modal-content">
 
-        <p class="modal-message"
-           th:text="${updateItemName + 'の学習時間を保存しました！'}">
-        </p>
+            <p class="modal-message"
+               th:text="${updateItemName + 'の学習時間を保存しました！'}">
+                学習時間を保存しました！
+            </p>
 
-        <button type="button"
-                class="modal-close-button"
-                onclick="closeUpdateModal()">
-            編集ページに戻る
-        </button>
+            <button type="button"
+                    class="modal-close-button"
+                    onclick="closeUpdateModal()">
+                編集ページに戻る
+            </button>
+
+        </div>
 
     </div>
 
-</div>
+    <!-- 削除完了モーダル -->
+    <div class="modal-overlay"
+         th:if="${deleteSuccess}"
+         id="deleteCompleteModal">
+
+        <div class="modal-content">
+
+            <p class="modal-message"
+               th:text="${deleteItemName + 'を削除しました！'}">
+                項目を削除しました！
+            </p>
+
+            <button type="button"
+                    class="modal-close-button"
+                    onclick="closeDeleteModal()">
+                編集ページに戻る
+            </button>
+
+        </div>
+
+    </div>
 
     <!-- フッター -->
     <footer class="footer">
         portfolio site
     </footer>
-
 </div>
 <script>
     function closeUpdateModal() {
         const modal =
             document.getElementById("updateCompleteModal");
+
+        if (modal) {
+            modal.style.display = "none";
+        }
+    }
+
+    function closeDeleteModal() {
+        const modal =
+            document.getElementById("deleteCompleteModal");
 
         if (modal) {
             modal.style.display = "none";

@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.springbootapplication.entity.LearningData;
+import com.spring.springbootapplication.entity.SkillChartData;
 
 @Mapper
 public interface LearningDataMapper {
@@ -49,6 +50,18 @@ void updateStudyTime(
 
 // IDとユーザーIDから学習データを1件取得
 LearningData findByIdAndUserId(
+    @Param("id") Integer id,
+    @Param("userId") Integer userId
+);
+
+// カテゴリごとの合計学習時間を取得
+List<SkillChartData> findCategoryStudyTimeTotals(
+    @Param("userId") Integer userId,
+    @Param("startDate") LocalDate startDate,
+    @Param("endDate") LocalDate endDate
+);
+
+void deleteByIdAndUserId(
     @Param("id") Integer id,
     @Param("userId") Integer userId
 );

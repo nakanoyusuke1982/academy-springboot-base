@@ -293,6 +293,53 @@ public String updateLearningData(
     return "redirect:/learning-data";
 }
 
+@PostMapping("/learning-data/{id}/delete")
+public String deleteLearningData(
+        @PathVariable("id") Integer id,
+        @RequestParam(name = "month") String month,
+        HttpSession session,
+        RedirectAttributes redirectAttributes) {
+
+    if (session.getAttribute("loginUser") == null) {
+        return "redirect:/login";
+    }
+
+    Integer userId = 1;
+
+    LearningData learningData =
+            learningDataService.findByIdAndUserId(
+                    id,
+                    userId
+            );
+
+    if (learningData == null) {
+        return "redirect:/learning-data?month=" + month;
+    }
+
+    learningDataService.deleteByIdAndUserId(
+            id,
+            userId
+    );
+
+    redirectAttributes.addAttribute(
+            "month",
+            month
+    );
+
+    redirectAttributes.addFlashAttribute(
+            "deleteSuccess",
+            true
+    );
+
+    redirectAttributes.addFlashAttribute(
+            "deleteItemName",
+            learningData.getItemName()
+    );
+
+    return "redirect:/learning-data";
+}
+
+
 private void setNewPageModel(
         Model model,
         LearningDataForm form) {
