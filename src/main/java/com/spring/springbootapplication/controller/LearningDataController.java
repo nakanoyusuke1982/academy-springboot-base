@@ -313,18 +313,10 @@ public String deleteLearningData(
             );
 
     if (learningData == null) {
-        redirectAttributes.addAttribute(
-                "month",
-                month
-        );
-
-        return "redirect:/learning-data";
+        return "redirect:/learning-data?month=" + month;
     }
 
-    String deletedItemName =
-            learningData.getItemName();
-
-    learningDataService.deleteLearningData(
+    learningDataService.deleteByIdAndUserId(
             id,
             userId
     );
@@ -341,7 +333,7 @@ public String deleteLearningData(
 
     redirectAttributes.addFlashAttribute(
             "deleteItemName",
-            deletedItemName
+            learningData.getItemName()
     );
 
     return "redirect:/learning-data";

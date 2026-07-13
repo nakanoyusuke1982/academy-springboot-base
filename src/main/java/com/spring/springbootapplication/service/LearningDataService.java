@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.spring.springbootapplication.entity.LearningData;
 import com.spring.springbootapplication.form.LearningDataForm;
 import com.spring.springbootapplication.mapper.LearningDataMapper;
+import com.spring.springbootapplication.entity.SkillChartData;
 
 import lombok.RequiredArgsConstructor;
 
@@ -152,10 +153,28 @@ public LearningData findByIdAndUserId(
     );
 }
 
+public List<SkillChartData> findCategoryStudyTimeTotals(
+        Integer userId) {
+
+    YearMonth currentMonth = YearMonth.now();
+
+    LocalDate startDate =
+            currentMonth.minusMonths(2).atDay(1);
+
+    LocalDate endDate =
+            currentMonth.plusMonths(1).atDay(1);
+
+    return learningDataMapper.findCategoryStudyTimeTotals(
+            userId,
+            startDate,
+            endDate
+    );
+}
+
 /**
- * IDとユーザーIDを指定して学習データを削除する
+ * 学習データを削除する
  */
-public void deleteLearningData(
+public void deleteByIdAndUserId(
         Integer id,
         Integer userId) {
 
