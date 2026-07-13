@@ -52,4 +52,10 @@ LearningData findByIdAndUserId(
     @Param("id") Integer id,
     @Param("userId") Integer userId
 );
+
+// IDとユーザーIDを指定して学習データを削除
+void deleteByIdAndUserId(
+    @Param("id") Integer id,
+    @Param("userId") Integer userId
+);
 }

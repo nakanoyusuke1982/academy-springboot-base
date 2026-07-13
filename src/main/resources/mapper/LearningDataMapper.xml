@@ -88,4 +88,10 @@
     WHERE id = #{id}
       AND user_id = #{userId}
 </select>
+
+<delete id="deleteByIdAndUserId">
+    DELETE FROM learning_data
+    WHERE id = #{id}
+      AND user_id = #{userId}
+</delete>
 </mapper>
