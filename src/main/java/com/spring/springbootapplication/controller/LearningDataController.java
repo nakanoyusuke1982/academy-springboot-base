@@ -22,6 +22,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import com.spring.springbootapplication.entity.User;
 
 @Controller
 @RequiredArgsConstructor
@@ -35,11 +36,13 @@ public String list(
         Model model,
         HttpSession session) {
 
-    if (session.getAttribute("loginUser") == null) {
-        return "redirect:/login";
-    }
+User loginUser = (User) session.getAttribute("loginUser");
 
-    Integer userId = 1;
+if (loginUser == null) {
+    return "redirect:/login";
+}
+
+Integer userId = loginUser.getId();
 
     YearMonth targetMonth = month == null
             ? YearMonth.now()
@@ -168,7 +171,9 @@ public String createLearningData(
         return "redirect:/login";
     }
 
-    Integer userId = 1;
+    User loginUser = (User) session.getAttribute("loginUser");
+
+Integer userId = loginUser.getId();
 
     /*
      * Bean Validationでエラーがある場合
@@ -247,7 +252,9 @@ public String updateLearningData(
         return "redirect:/login";
     }
 
-    Integer userId = 1;
+User loginUser = (User) session.getAttribute("loginUser");
+
+Integer userId = loginUser.getId();
 
     if (studyTime == null || studyTime < 0) {
         redirectAttributes.addAttribute("month", month);
@@ -304,7 +311,9 @@ public String deleteLearningData(
         return "redirect:/login";
     }
 
-    Integer userId = 1;
+   User loginUser = (User) session.getAttribute("loginUser");
+
+Integer userId = loginUser.getId();
 
     LearningData learningData =
             learningDataService.findByIdAndUserId(
