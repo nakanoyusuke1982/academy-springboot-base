@@ -13,7 +13,9 @@
 
     <!-- ヘッダー -->
     <header class="header header-between">
-        <div class="header-title">My Portfolio</div>
+       <a th:href="@{/top}" class="header-title">
+          My Portfolio
+       </a>
 
         <form action="/logout" method="post">
             <button type="submit" class="header-button">
