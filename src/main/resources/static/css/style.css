@@ -972,3 +972,9 @@ button {
 .modal-close-button:hover {
     opacity: 0.85;
 }
+
+.profile-image-file {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}

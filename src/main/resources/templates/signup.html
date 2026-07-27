@@ -8,40 +8,78 @@
 </head>
 
 <body>
-    <div class="page">
-        <div class="header header-between">
-            <div>My Portfolio</div>
-            <button type="button" class="header-button" onclick="location.href='/login'">
-                ログイン
-            </button>
-        </div>
+<div class="page">
 
-        <div class="login-area">
-            <h1>新規登録</h1>
+    <div class="header header-between">
+        <div>My Portfolio</div>
 
-            <form action="/signup" method="post">
-                <div class="form-group">
-                    <label>氏名</label>
-                    <input type="text" name="name">
-                </div>
-
-                <div class="form-group">
-                    <label>メールアドレス</label>
-                    <input type="email" name="email">
-                </div>
-
-                <div class="form-group">
-                    <label>パスワード</label>
-                    <input type="password" name="password">
-                </div>
-
-                <div class="button-area">
-                    <button type="submit">登録する</button>
-                </div>
-            </form>
-        </div>
-
-        <div class="footer">portfolio site</div>
+        <button type="button"
+                class="header-button"
+                onclick="location.href='/login'">
+            ログイン
+        </button>
     </div>
+
+    <div class="login-area">
+
+        <h1>新規登録</h1>
+
+        <form th:action="@{/signup}"
+              th:object="${userForm}"
+              method="post">
+
+            <div class="form-group">
+                <label for="name">氏名</label>
+
+                <input type="text"
+                       id="name"
+                       th:field="*{name}">
+
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('name')}"
+                   th:errors="*{name}">
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="email">メールアドレス</label>
+
+                <input type="text"
+                       id="email"
+                       th:field="*{email}">
+
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('email')}"
+                   th:errors="*{email}">
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="password">パスワード</label>
+
+                <input type="password"
+                       id="password"
+                       th:field="*{password}">
+
+                <p class="error-message"
+                   th:if="${#fields.hasErrors('password')}"
+                   th:errors="*{password}">
+                </p>
+            </div>
+
+            <div class="button-area">
+                <button type="submit">
+                    登録する
+                </button>
+            </div>
+
+        </form>
+    </div>
+
+    <div class="footer">
+        portfolio site
+    </div>
+
+</div>
 </body>
 </html>

@@ -24,8 +24,17 @@
         <div class="profile-area">
             <div class="profile-left">
     <div class="profile-image">
+
+    <img th:if="${loginUser.imageUrl != null and !#strings.isEmpty(loginUser.imageUrl)}"
+         th:src="@{'/uploads/' + ${loginUser.imageUrl}}"
+         alt="プロフィール画像"
+         class="profile-image-file">
+
+    <span th:unless="${loginUser.imageUrl != null and !#strings.isEmpty(loginUser.imageUrl)}">
         No Image
-    </div>
+    </span>
+
+</div>
 
     <p class="profile-name" th:text="${loginUser.name}">
         名前
