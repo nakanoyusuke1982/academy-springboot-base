@@ -34,8 +34,8 @@
 
             <textarea th:field="*{profile}" rows="8" cols="50"></textarea>
 
-            <p th:if="${#fields.hasErrors('profile')}"
-   th:errors="*{profile}"
+          <p th:if="${#fields.hasErrors('profile')}"
+   th:text="${#fields.errors('profile')[0]}"
    style="color:red;">
 </p>
 

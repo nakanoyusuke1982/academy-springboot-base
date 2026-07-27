@@ -24,6 +24,12 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import java.time.YearMonth;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.UUID;
+
 @Controller
 public class UserController {
 
@@ -45,10 +51,34 @@ public String signup(Model model) {
 }
 
 @PostMapping("/signup")
-public String createUser(@ModelAttribute UserForm userForm, HttpSession session) {
+public String createUser(
+        @Valid @ModelAttribute("userForm") UserForm userForm,
+        BindingResult bindingResult,
+        HttpSession session) {
+
+    if (!bindingResult.hasFieldErrors("email")) {
+
+        User existingUser =
+                userService.findByEmail(userForm.getEmail());
+
+        if (existingUser != null) {
+            bindingResult.rejectValue(
+                    "email",
+                    "duplicate",
+                    "既に登録されているメールアドレスです"
+            );
+        }
+    }
+
+    if (bindingResult.hasErrors()) {
+        return "signup";
+    }
+
     userService.createUser(userForm);
 
-    User user = userService.findByEmail(userForm.getEmail());
+    User user =
+            userService.findByEmail(userForm.getEmail());
+
     session.setAttribute("loginUser", user);
 
     return "redirect:/top";
@@ -194,7 +224,7 @@ model.addAttribute("profileForm", profileForm);
 
 @PostMapping("/profile/edit")
 public String updateProfile(
-        @Valid @ModelAttribute ProfileForm profileForm,
+        @Valid @ModelAttribute("profileForm") ProfileForm profileForm,
         BindingResult bindingResult,
         HttpSession session,
         Model model) {
@@ -206,23 +236,58 @@ public String updateProfile(
     }
 
     if (bindingResult.hasErrors()) {
-    System.out.println(bindingResult.getAllErrors());
-
-    model.addAttribute("profileForm", profileForm);
-    model.addAttribute("loginUser", loginUser);
-
-    return "profile-edit";
-}
+        model.addAttribute("loginUser", loginUser);
+        return "profile-edit";
+    }
 
     loginUser.setProfile(profileForm.getProfile());
 
-MultipartFile imageFile = profileForm.getImageFile();
+    MultipartFile imageFile = profileForm.getImageFile();
 
-if (imageFile != null && !imageFile.isEmpty()) {
-    loginUser.setImageUrl(imageFile.getOriginalFilename());
-}
+    if (imageFile != null && !imageFile.isEmpty()) {
 
-userService.updateProfile(loginUser);
+        try {
+            Path uploadDirectory =
+        Paths.get(System.getProperty("user.dir"), "uploads");
+
+            Files.createDirectories(uploadDirectory);
+
+            String originalFilename =
+                    imageFile.getOriginalFilename();
+
+            String extension = "";
+
+            if (originalFilename != null
+                    && originalFilename.contains(".")) {
+
+                extension = originalFilename.substring(
+                        originalFilename.lastIndexOf(".")
+                );
+            }
+
+            String savedFilename =
+                    UUID.randomUUID() + extension;
+
+            Path savePath =
+                    uploadDirectory.resolve(savedFilename);
+
+            imageFile.transferTo(savePath.toFile());
+
+            loginUser.setImageUrl(savedFilename);
+
+        } catch (IOException e) {
+            bindingResult.rejectValue(
+                    "imageFile",
+                    "uploadError",
+                    "プロフィール画像の保存に失敗しました"
+            );
+
+            model.addAttribute("loginUser", loginUser);
+            return "profile-edit";
+        }
+    }
+
+    userService.updateProfile(loginUser);
 
     session.setAttribute("loginUser", loginUser);
 
