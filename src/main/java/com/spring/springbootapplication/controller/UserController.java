@@ -229,7 +229,8 @@ public String updateProfile(
         HttpSession session,
         Model model) {
 
-    User loginUser = (User) session.getAttribute("loginUser");
+    User loginUser =
+            (User) session.getAttribute("loginUser");
 
     if (loginUser == null) {
         return "redirect:/login";
@@ -240,17 +241,40 @@ public String updateProfile(
         return "profile-edit";
     }
 
-    loginUser.setProfile(profileForm.getProfile());
-
-    MultipartFile imageFile = profileForm.getImageFile();
+    MultipartFile imageFile =
+            profileForm.getImageFile();
 
     if (imageFile != null && !imageFile.isEmpty()) {
 
+        long maxFileSize =
+                5L * 1024 * 1024;
+
+        if (imageFile.getSize() > maxFileSize) {
+
+            bindingResult.rejectValue(
+                    "imageFile",
+                    "fileSize",
+                    "プロフィール画像は5MB以下のファイルを選択してください"
+            );
+
+            model.addAttribute(
+                    "loginUser",
+                    loginUser
+            );
+
+            return "profile-edit";
+        }
+
         try {
             Path uploadDirectory =
-        Paths.get(System.getProperty("user.dir"), "uploads");
+                    Paths.get(
+                            System.getProperty("user.dir"),
+                            "uploads"
+                    );
 
-            Files.createDirectories(uploadDirectory);
+            Files.createDirectories(
+                    uploadDirectory
+            );
 
             String originalFilename =
                     imageFile.getOriginalFilename();
@@ -260,40 +284,63 @@ public String updateProfile(
             if (originalFilename != null
                     && originalFilename.contains(".")) {
 
-                extension = originalFilename.substring(
-                        originalFilename.lastIndexOf(".")
-                );
+                extension =
+                        originalFilename.substring(
+                                originalFilename.lastIndexOf(".")
+                        );
             }
 
             String savedFilename =
                     UUID.randomUUID() + extension;
 
             Path savePath =
-                    uploadDirectory.resolve(savedFilename);
+                    uploadDirectory.resolve(
+                            savedFilename
+                    );
 
-            imageFile.transferTo(savePath.toFile());
+            imageFile.transferTo(
+                    savePath.toFile()
+            );
 
-            loginUser.setImageUrl(savedFilename);
+            loginUser.setImageUrl(
+                    savedFilename
+            );
 
         } catch (IOException e) {
+
             bindingResult.rejectValue(
                     "imageFile",
                     "uploadError",
                     "プロフィール画像の保存に失敗しました"
             );
 
-            model.addAttribute("loginUser", loginUser);
+            model.addAttribute(
+                    "loginUser",
+                    loginUser
+            );
+
             return "profile-edit";
         }
     }
 
-    userService.updateProfile(loginUser);
+    // 画像チェックと保存が成功した後に更新
+    loginUser.setProfile(
+            profileForm.getProfile()
+    );
 
-    session.setAttribute("loginUser", loginUser);
+    userService.updateProfile(
+            loginUser
+    );
+
+    session.setAttribute(
+            "loginUser",
+            loginUser
+    );
 
     return "redirect:/top";
 }
 
+    
 @PostMapping("/logout")
 public String logout(HttpSession session) {
     session.invalidate();
